@@ -82,11 +82,11 @@ class App extends React.Component {
           {this.state.list.map(({ categoryID, category, items }) => (
             <li key={categoryID}>
               {category}
-              {items.map(({ itemID, item }) => (
-                <ul>
+              <ul key={categoryID}>
+                {items.map(({ itemID, item }) => (
                   <li key={itemID}>{item}</li>
-                </ul>
-              ))}
+                ))}
+              </ul>
             </li>
           ))}
         </ul>
