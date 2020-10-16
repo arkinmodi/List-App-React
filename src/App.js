@@ -18,7 +18,6 @@ class App extends React.Component {
     let append = this.state.list.find(
       ({ categoryID, category, items }) => category === this.state.inputCategory
     );
-    console.log(append);
 
     if (typeof append === "undefined") {
       // This case is for a new category
@@ -39,6 +38,7 @@ class App extends React.Component {
         ],
       });
     } else {
+      // This case if for when the category already exists
       let newList = this.state.list;
       newList[append.categoryID].items = [
         ...newList[append.categoryID].items,
@@ -79,12 +79,14 @@ class App extends React.Component {
 
         {/* List of Items */}
         <ul>
-          {this.state.list.map(({ items, category, categoryID }) => (
+          {this.state.list.map(({ categoryID, category, items }) => (
             <li key={categoryID}>
               {category}
-              <ul>
-                <li>{items[0].item}</li>
-              </ul>
+              {items.map(({ itemID, item }) => (
+                <ul>
+                  <li key={itemID}>{item}</li>
+                </ul>
+              ))}
             </li>
           ))}
         </ul>
