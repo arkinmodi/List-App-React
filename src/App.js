@@ -5,8 +5,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
-      nextID: 0,
+      list: [],
+      nextItemID: 0,
+      nextCategoryID: 0,
       inputItem: "",
       inputCategory: "",
     };
@@ -14,19 +15,44 @@ class App extends React.Component {
 
   // Submit button function
   submit() {
-    this.setState({
-      nextID: this.state.nextID + 1,
-      inputItem: "",
-      inputCategory: "",
-      items: [
-        ...this.state.items,
-        {
-          item: this.state.inputItem,
-          category: this.state.inputCategory,
-          id: this.state.nextID + 1,
-        },
-      ],
-    });
+    let append = this.state.list.find(
+      ({ categoryID, category, items }) => category === this.state.inputCategory
+    );
+    console.log(append);
+
+    if (typeof append === "undefined") {
+      // This case is for a new category
+      this.setState({
+        nextItemID: this.state.nextItemID + 1,
+        nextCategoryID: this.state.nextCategoryID + 1,
+        inputItem: "",
+        inputCategory: "",
+        list: [
+          ...this.state.list,
+          {
+            categoryID: this.state.nextCategoryID,
+            category: this.state.inputCategory,
+            items: [
+              { itemID: this.state.nextItemID, item: this.state.inputItem },
+            ],
+          },
+        ],
+      });
+    } else {
+      let newList = this.state.list;
+      newList[append.categoryID].items = [
+        ...newList[append.categoryID].items,
+        { itemID: this.state.nextItemID, item: this.state.inputItem },
+      ];
+
+      this.setState({
+        nextItemID: this.state.nextItemID + 1,
+        nextCategoryID: this.state.nextCategoryID,
+        inputItem: "",
+        inputCategory: "",
+        list: newList,
+      });
+    }
   }
 
   render() {
@@ -53,8 +79,13 @@ class App extends React.Component {
 
         {/* List of Items */}
         <ul>
-          {this.state.items.map(({ item, id }) => (
-            <li key={id}>{item}</li>
+          {this.state.list.map(({ items, category, categoryID }) => (
+            <li key={categoryID}>
+              {category}
+              <ul>
+                <li>{items[0].item}</li>
+              </ul>
+            </li>
           ))}
         </ul>
       </div>
