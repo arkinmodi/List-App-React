@@ -10,49 +10,110 @@ class App extends React.Component {
       nextCategoryID: 0,
       inputItem: "",
       inputCategory: "",
+      mode: "Add",
+      editCategoryIndex: -1,
+      editItemIndex: -1,
     };
   }
 
   // Submit button function
   submit() {
-    let append = this.state.list.find(
-      ({ categoryID, category, items }) => category === this.state.inputCategory
-    );
+    // Check what mode we are in (i.e., Add or Edit)
+    if (this.state.mode === "Add") {
+      // Looks for category in list
+      let append = this.state.list.find(
+        ({ categoryID, category, items }) =>
+          category === this.state.inputCategory
+      );
+      // Checks if the category is already in list by checking if "append" found anything
+      if (typeof append === "undefined") {
+        this.setState({
+          nextItemID: this.state.nextItemID + 1,
+          nextCategoryID: this.state.nextCategoryID + 1,
+          inputItem: "",
+          inputCategory: "",
+          list: [
+            ...this.state.list,
+            {
+              categoryID: this.state.nextCategoryID,
+              category: this.state.inputCategory,
+              items: [
+                { itemID: this.state.nextItemID, item: this.state.inputItem },
+              ],
+            },
+          ],
+        });
+      } else {
+        let newList = this.state.list;
+        newList[append.categoryID].items = [
+          ...newList[append.categoryID].items,
+          { itemID: this.state.nextItemID, item: this.state.inputItem },
+        ];
 
-    if (typeof append === "undefined") {
-      // This case is for a new category
-      this.setState({
-        nextItemID: this.state.nextItemID + 1,
-        nextCategoryID: this.state.nextCategoryID + 1,
-        inputItem: "",
-        inputCategory: "",
-        list: [
-          ...this.state.list,
-          {
-            categoryID: this.state.nextCategoryID,
-            category: this.state.inputCategory,
-            items: [
-              { itemID: this.state.nextItemID, item: this.state.inputItem },
-            ],
-          },
-        ],
-      });
-    } else {
-      // This case if for when the category already exists
+        this.setState({
+          nextItemID: this.state.nextItemID + 1,
+          nextCategoryID: this.state.nextCategoryID,
+          inputItem: "",
+          inputCategory: "",
+          list: newList,
+        });
+      }
+    } else if (this.state.mode === "Edit Category") {
       let newList = this.state.list;
-      newList[append.categoryID].items = [
-        ...newList[append.categoryID].items,
-        { itemID: this.state.nextItemID, item: this.state.inputItem },
-      ];
+      newList[this.state.editCategoryIndex].category = this.state.inputCategory;
 
       this.setState({
-        nextItemID: this.state.nextItemID + 1,
-        nextCategoryID: this.state.nextCategoryID,
-        inputItem: "",
         inputCategory: "",
+        inputItem: "",
         list: newList,
+        mode: "Add",
+        editCategoryIndex: -1,
+      });
+    } else if (this.state.mode === "Edit Item") {
+      let newList = this.state.list;
+      newList[this.state.editCategoryIndex].items[
+        this.state.editItemIndex
+      ].item = this.state.inputItem;
+
+      this.setState({
+        inputCategory: "",
+        inputItem: "",
+        list: newList,
+        mode: "Add",
+        editCategoryIndex: -1,
+        editItemIndex: -1,
       });
     }
+  }
+
+  // Edit category function
+  editCategory(editID) {
+    let editCategory = this.state.list.find(
+      ({ categoryID, category, items }) => editID === categoryID
+    );
+
+    this.setState({
+      inputCategory: editCategory.category,
+      mode: "Edit Category",
+      editCategoryIndex: editCategory.categoryID,
+    });
+  }
+
+  // Edit item function
+  editItem(editCategoryID, editItemID) {
+    let editCategory = this.state.list.find(
+      ({ categoryID, category, items }) => editCategoryID === categoryID
+    );
+    let editItem = editCategory.items.find(
+      ({ itemID, item }) => editItemID === itemID
+    );
+
+    this.setState({
+      inputItem: editItem.item,
+      mode: "Edit Item",
+      editCategoryIndex: editCategory.categoryID,
+      editItemIndex: editCategory.items.indexOf(editItem),
+    });
   }
 
   render() {
@@ -75,16 +136,28 @@ class App extends React.Component {
         />
 
         {/* Submit Button */}
-        <button onClick={this.submit.bind(this)}>Submit</button>
+        <button onClick={this.submit.bind(this)}>{this.state.mode}</button>
 
         {/* List of Items */}
         <ul>
           {this.state.list.map(({ categoryID, category, items }) => (
             <li key={categoryID}>
-              {category}
+              {category} --{" "}
+              <span onClick={this.editCategory.bind(this, categoryID)}>
+                Edit{" "}
+              </span>
+              <span>Delete</span>
               <ul key={categoryID}>
                 {items.map(({ itemID, item }) => (
-                  <li key={itemID}>{item}</li>
+                  <li key={itemID}>
+                    {item} --{" "}
+                    <span
+                      onClick={this.editItem.bind(this, categoryID, itemID)}
+                    >
+                      Edit{" "}
+                    </span>
+                    <span>Delete</span>
+                  </li>
                 ))}
               </ul>
             </li>
