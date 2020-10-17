@@ -45,14 +45,15 @@ class App extends React.Component {
         });
       } else {
         let newList = this.state.list;
-        newList[append.categoryID].items = [
-          ...newList[append.categoryID].items,
+        let index = this.state.list.indexOf(append);
+        newList[index].items = [
+          ...newList[index].items,
           { itemID: this.state.nextItemID, item: this.state.inputItem },
         ];
 
         this.setState({
           nextItemID: this.state.nextItemID + 1,
-          nextCategoryID: this.state.nextCategoryID,
+          nextCategoryID: this.state.nextCategoryID + 1,
           inputItem: "",
           inputCategory: "",
           list: newList,
@@ -95,7 +96,7 @@ class App extends React.Component {
     this.setState({
       inputCategory: editCategory.category,
       mode: "Edit Category",
-      editCategoryIndex: editCategory.categoryID,
+      editCategoryIndex: this.state.list.indexOf(editCategory),
     });
   }
 
@@ -111,9 +112,43 @@ class App extends React.Component {
     this.setState({
       inputItem: editItem.item,
       mode: "Edit Item",
-      editCategoryIndex: editCategory.categoryID,
+      editCategoryIndex: this.state.list.indexOf(editCategory),
       editItemIndex: editCategory.items.indexOf(editItem),
     });
+  }
+
+  // Delete category function
+  deleteCategory(deleteID) {
+    // Checks if we are in edit mode
+    if (this.state.mode === "Add") {
+      let newList = this.state.list.filter(
+        ({ categoryID, category, items }) => deleteID !== categoryID
+      );
+      this.setState({
+        list: newList,
+      });
+    }
+  }
+
+  // Delete item function
+  deleteItem(deleteCategoryID, deleteItemID) {
+    // Checks if we are in edit mode
+    if (this.state.mode === "Add") {
+      let newList = this.state.list;
+      let index = this.state.list.indexOf(
+        this.state.list.find(
+          ({ categoryID, category, items }) => deleteCategoryID === categoryID
+        )
+      );
+
+      newList[index].items = newList[index].items.filter(
+        ({ itemID, item }) => deleteItemID !== itemID
+      );
+
+      this.setState({
+        list: newList,
+      });
+    }
   }
 
   render() {
@@ -146,7 +181,9 @@ class App extends React.Component {
               <span onClick={this.editCategory.bind(this, categoryID)}>
                 Edit{" "}
               </span>
-              <span>Delete</span>
+              <span onClick={this.deleteCategory.bind(this, categoryID)}>
+                Delete
+              </span>
               <ul key={categoryID}>
                 {items.map(({ itemID, item }) => (
                   <li key={itemID}>
@@ -156,7 +193,11 @@ class App extends React.Component {
                     >
                       Edit{" "}
                     </span>
-                    <span>Delete</span>
+                    <span
+                      onClick={this.deleteItem.bind(this, categoryID, itemID)}
+                    >
+                      Delete
+                    </span>
                   </li>
                 ))}
               </ul>
