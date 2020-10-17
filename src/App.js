@@ -1,6 +1,14 @@
 import React from "react";
 import "./App.css";
 
+// class Priority_Levels extends React.Component {
+//   render() {
+//     return (
+//       <input type="text" onChange={}/>
+//     )
+//   }
+// }
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -10,6 +18,9 @@ class App extends React.Component {
       nextCategoryID: 0,
       inputItem: "",
       inputCategory: "",
+      inputDescription: "",
+      inputDeadline: "",
+      inputPriority: "",
       mode: "Add",
       editCategoryIndex: -1,
       editItemIndex: -1,
@@ -196,7 +207,17 @@ class App extends React.Component {
             this.setState({ isDescription: !this.state.isDescription })
           }
         />
-        Description
+        Description {/* Only display text box when Description is checked */}
+        {this.state.isDescription && (
+          <input
+            type="text"
+            onChange={(event) =>
+              this.setState({ inputDescription: event.target.value })
+            }
+            value={this.state.inputDescription}
+            placeholder="Description"
+          />
+        )}
         <br />
         <input
           type="checkbox"
@@ -205,7 +226,17 @@ class App extends React.Component {
             this.setState({ isDeadline: !this.state.isDeadline })
           }
         />
-        Due Date
+        Due Date {/* Only display text box when Due Date is checked */}
+        {this.state.isDeadline && (
+          <input
+            type="text"
+            onChange={(event) =>
+              this.setState({ inputDeadline: event.target.value })
+            }
+            value={this.state.inputDeadline}
+            placeholder="Due Date"
+          />
+        )}
         <br />
         {/* Submit Button */}
         <button onClick={this.submit.bind(this)}>{this.state.mode}</button>
