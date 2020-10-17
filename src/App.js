@@ -23,6 +23,12 @@ class App extends React.Component {
   submit() {
     // Check what mode we are in (i.e., Add or Edit)
     if (this.state.mode === "Add") {
+      // Checks if the Category and Item are both filled in
+      if (this.state.inputItem === "" || this.state.inputCategory === "") {
+        alert("Please fill in both Category and Item");
+        return;
+      }
+
       // Looks for category in list
       let append = this.state.list.find(
         ({ categoryID, category, items }) =>
