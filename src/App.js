@@ -13,6 +13,9 @@ class App extends React.Component {
       mode: "Add",
       editCategoryIndex: -1,
       editItemIndex: -1,
+      isPriority: false,
+      isDescription: false,
+      isDeadline: false,
     };
   }
 
@@ -163,7 +166,6 @@ class App extends React.Component {
           value={this.state.inputCategory}
           placeholder="Category"
         />
-
         {/* Item Input Box */}
         <input
           type="text"
@@ -171,10 +173,36 @@ class App extends React.Component {
           value={this.state.inputItem}
           placeholder="Item"
         />
-
+        <br />
+        <input
+          type="checkbox"
+          checked={this.state.isPriority}
+          onChange={(event) =>
+            this.setState({ isPriority: !this.state.isPriority })
+          }
+        />
+        Priority Levels
+        <br />
+        <input
+          type="checkbox"
+          checked={this.state.isDescription}
+          onChange={(event) =>
+            this.setState({ isDescription: !this.state.isPriority })
+          }
+        />
+        Description
+        <br />
+        <input
+          type="checkbox"
+          checked={this.state.isDeadline}
+          onChange={(event) =>
+            this.setState({ isDeadline: !this.state.isPriority })
+          }
+        />
+        Due Date
+        <br />
         {/* Submit Button */}
         <button onClick={this.submit.bind(this)}>{this.state.mode}</button>
-
         {/* List of Items */}
         <ul>
           {this.state.list.map(({ categoryID, category, items }) => (
