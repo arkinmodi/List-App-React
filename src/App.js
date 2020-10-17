@@ -102,13 +102,19 @@ class App extends React.Component {
       });
     } else if (this.state.mode === "Edit Item") {
       let newList = this.state.list;
-      newList[this.state.editCategoryIndex].items[
-        this.state.editItemIndex
-      ].item = this.state.inputItem;
+      let newItem =
+        newList[this.state.editCategoryIndex].items[this.state.editItemIndex];
+      newItem.item = this.state.inputItem;
+      newItem.priority = this.state.inputPriority;
+      newItem.deadline = this.state.inputDeadline;
+      newItem.description = this.state.inputDescription;
 
       this.setState({
         inputCategory: "",
         inputItem: "",
+        inputPriority: "",
+        inputDeadline: "",
+        inputDescription: "",
         list: newList,
         mode: "Add",
         editCategoryIndex: -1,
@@ -136,11 +142,14 @@ class App extends React.Component {
       ({ categoryID, category, items }) => editCategoryID === categoryID
     );
     let editItem = editCategory.items.find(
-      ({ itemID, item }) => editItemID === itemID
+      ({ itemID, item, priority, description, deadline }) =>
+        editItemID === itemID
     );
-
     this.setState({
       inputItem: editItem.item,
+      inputPriority: editItem.priority,
+      inputDeadline: editItem.deadline,
+      inputDescription: editItem.description,
       mode: "Edit Item",
       editCategoryIndex: this.state.list.indexOf(editCategory),
       editItemIndex: editCategory.items.indexOf(editItem),
@@ -172,7 +181,8 @@ class App extends React.Component {
       );
 
       newList[index].items = newList[index].items.filter(
-        ({ itemID, item }) => deleteItemID !== itemID
+        ({ itemID, item, priority, description, deadline }) =>
+          deleteItemID !== itemID
       );
 
       this.setState({
