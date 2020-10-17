@@ -187,7 +187,7 @@ class App extends React.Component {
           type="checkbox"
           checked={this.state.isDescription}
           onChange={(event) =>
-            this.setState({ isDescription: !this.state.isPriority })
+            this.setState({ isDescription: !this.state.isDescription })
           }
         />
         Description
@@ -196,7 +196,7 @@ class App extends React.Component {
           type="checkbox"
           checked={this.state.isDeadline}
           onChange={(event) =>
-            this.setState({ isDeadline: !this.state.isPriority })
+            this.setState({ isDeadline: !this.state.isDeadline })
           }
         />
         Due Date
