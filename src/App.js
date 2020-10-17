@@ -1,37 +1,30 @@
 import React from "react";
 import "./App.css";
 
-// class Priority_Levels extends React.Component {
-//   render() {
-//     return (
-//       <input type="text" onChange={}/>
-//     )
-//   }
-// }
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [],
-      nextItemID: 0,
-      nextCategoryID: 0,
-      inputItem: "",
-      inputCategory: "",
-      inputDescription: "",
-      inputDeadline: "",
-      inputPriority: "",
-      mode: "Add",
-      editCategoryIndex: -1,
-      editItemIndex: -1,
-      isPriority: false,
-      isDescription: false,
-      isDeadline: false,
+      list: [], // List of objects containing categories and items in each category
+      nextItemID: 0, // Next ID number of a new item
+      nextCategoryID: 0, // Next ID number of a new category
+      inputItem: "", // Input text in item text box
+      inputCategory: "", // Input text in category text box
+      inputDescription: "", // Input text in description text box
+      inputDeadline: "", // Input text in due date text box
+      inputPriority: "Low", // Input from priority level select box
+      mode: "Add", // Add or Edit mode
+      editCategoryIndex: -1, // Category index to edit
+      editItemIndex: -1, // Item index to edit
+      isPriority: false, // Is priority level checkbox checked?
+      isDescription: false, // Is description checkbox checked?
+      isDeadline: false, // Is due date checkbox checked?
     };
   }
 
   // Submit button function
   submit() {
+    console.log(this.state.inputPriority);
     // Check what mode we are in (i.e., Add or Edit)
     if (this.state.mode === "Add") {
       // Checks if the Category and Item are both filled in
@@ -198,7 +191,20 @@ class App extends React.Component {
             this.setState({ isPriority: !this.state.isPriority })
           }
         />
-        Priority Levels
+        Priority Levels{" "}
+        {/* Only display select box when Priority Levels is checked */}
+        {this.state.isPriority && (
+          <select
+            value={this.state.inputPriority}
+            onChange={(event) =>
+              this.setState({ inputPriority: event.target.value })
+            }
+          >
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        )}
         <br />
         <input
           type="checkbox"
