@@ -12,7 +12,7 @@ class App extends React.Component {
       inputCategory: "", // Input text in category text box
       inputDescription: "", // Input text in description text box
       inputDeadline: "", // Input text in due date text box
-      inputPriority: "Low", // Input from priority level select box
+      inputPriority: "", // Input from priority level select box
       mode: "Add", // Add or Edit mode
       editCategoryIndex: -1, // Category index to edit
       editItemIndex: -1, // Item index to edit
@@ -24,7 +24,6 @@ class App extends React.Component {
 
   // Submit button function
   submit() {
-    console.log(this.state.inputPriority);
     // Check what mode we are in (i.e., Add or Edit)
     if (this.state.mode === "Add") {
       // Checks if the Category and Item are both filled in
@@ -45,13 +44,22 @@ class App extends React.Component {
           nextCategoryID: this.state.nextCategoryID + 1,
           inputItem: "",
           inputCategory: "",
+          inputPriority: "",
+          inputDescription: "",
+          inputDeadline: "",
           list: [
             ...this.state.list,
             {
               categoryID: this.state.nextCategoryID,
               category: this.state.inputCategory,
               items: [
-                { itemID: this.state.nextItemID, item: this.state.inputItem },
+                {
+                  itemID: this.state.nextItemID,
+                  item: this.state.inputItem,
+                  priority: this.state.inputPriority,
+                  description: this.state.inputDescription,
+                  deadline: this.state.inputDeadline,
+                },
               ],
             },
           ],
@@ -61,7 +69,13 @@ class App extends React.Component {
         let index = this.state.list.indexOf(append);
         newList[index].items = [
           ...newList[index].items,
-          { itemID: this.state.nextItemID, item: this.state.inputItem },
+          {
+            itemID: this.state.nextItemID,
+            item: this.state.inputItem,
+            priority: this.state.inputPriority,
+            description: this.state.inputDescription,
+            deadline: this.state.inputDeadline,
+          },
         ];
 
         this.setState({
@@ -69,6 +83,9 @@ class App extends React.Component {
           nextCategoryID: this.state.nextCategoryID + 1,
           inputItem: "",
           inputCategory: "",
+          inputPriority: "",
+          inputDescription: "",
+          inputDeadline: "",
           list: newList,
         });
       }
@@ -200,29 +217,11 @@ class App extends React.Component {
               this.setState({ inputPriority: event.target.value })
             }
           >
+            <option value=""></option>
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
             <option value="High">High</option>
           </select>
-        )}
-        <br />
-        <input
-          type="checkbox"
-          checked={this.state.isDescription}
-          onChange={(event) =>
-            this.setState({ isDescription: !this.state.isDescription })
-          }
-        />
-        Description {/* Only display text box when Description is checked */}
-        {this.state.isDescription && (
-          <input
-            type="text"
-            onChange={(event) =>
-              this.setState({ inputDescription: event.target.value })
-            }
-            value={this.state.inputDescription}
-            placeholder="Description"
-          />
         )}
         <br />
         <input
@@ -244,6 +243,25 @@ class App extends React.Component {
           />
         )}
         <br />
+        <input
+          type="checkbox"
+          checked={this.state.isDescription}
+          onChange={(event) =>
+            this.setState({ isDescription: !this.state.isDescription })
+          }
+        />
+        Description {/* Only display text box when Description is checked */}
+        {this.state.isDescription && (
+          <input
+            type="text"
+            onChange={(event) =>
+              this.setState({ inputDescription: event.target.value })
+            }
+            value={this.state.inputDescription}
+            placeholder="Description"
+          />
+        )}
+        <br />
         {/* Submit Button */}
         <button onClick={this.submit.bind(this)}>{this.state.mode}</button>
         {/* List of Items */}
@@ -258,21 +276,41 @@ class App extends React.Component {
                 Delete
               </span>
               <ul key={categoryID}>
-                {items.map(({ itemID, item }) => (
-                  <li key={itemID}>
-                    {item} --{" "}
-                    <span
-                      onClick={this.editItem.bind(this, categoryID, itemID)}
-                    >
-                      Edit{" "}
-                    </span>
-                    <span
-                      onClick={this.deleteItem.bind(this, categoryID, itemID)}
-                    >
-                      Delete
-                    </span>
-                  </li>
-                ))}
+                {items.map(
+                  ({ itemID, item, priority, description, deadline }) => (
+                    <li key={itemID}>
+                      {item} --{" "}
+                      <span
+                        onClick={this.editItem.bind(this, categoryID, itemID)}
+                      >
+                        Edit{" "}
+                      </span>
+                      <span
+                        onClick={this.deleteItem.bind(this, categoryID, itemID)}
+                      >
+                        Delete
+                      </span>
+                      {/* Shows respective property when respective checkbox is checked */}
+                      {(this.state.isPriority ||
+                        this.state.isDeadline ||
+                        this.state.isDescription) && (
+                        <ul key={itemID + "extra"}>
+                          {this.state.isPriority && (
+                            <li key={itemID + "p"}>Priority: {priority}</li>
+                          )}
+                          {this.state.isDeadline && (
+                            <li key={itemID + "dd"}>Due Date: {deadline}</li>
+                          )}
+                          {this.state.isDescription && (
+                            <li key={itemID + "desc"}>
+                              Description: {description}
+                            </li>
+                          )}
+                        </ul>
+                      )}
+                    </li>
+                  )
+                )}
               </ul>
             </li>
           ))}
