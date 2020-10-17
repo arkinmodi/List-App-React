@@ -161,6 +161,7 @@ class App extends React.Component {
             this.setState({ inputCategory: event.target.value })
           }
           value={this.state.inputCategory}
+          placeholder="Category"
         />
 
         {/* Item Input Box */}
@@ -168,6 +169,7 @@ class App extends React.Component {
           type="text"
           onChange={(event) => this.setState({ inputItem: event.target.value })}
           value={this.state.inputItem}
+          placeholder="Item"
         />
 
         {/* Submit Button */}
