@@ -90,6 +90,12 @@ class App extends React.Component {
         });
       }
     } else if (this.state.mode === "Edit Category") {
+      // Checks if the Category is filled in
+      if (this.state.inputCategory === "") {
+        alert("Please fill in Category");
+        return;
+      }
+
       let newList = this.state.list;
       newList[this.state.editCategoryIndex].category = this.state.inputCategory;
 
@@ -101,6 +107,12 @@ class App extends React.Component {
         editCategoryIndex: -1,
       });
     } else if (this.state.mode === "Edit Item") {
+      // Checks if the Item is filled in
+      if (this.state.inputItem === "") {
+        alert("Please fill in Item");
+        return;
+      }
+
       let newList = this.state.list;
       let newItem =
         newList[this.state.editCategoryIndex].items[this.state.editItemIndex];
