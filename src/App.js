@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, ButtonGroup, ToggleButton } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 class App extends React.Component {
   constructor(props) {
@@ -208,101 +208,116 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        {/* Category Input Box */}
-        <input
-          type="text"
-          onChange={(event) =>
-            this.setState({ inputCategory: event.target.value })
-          }
-          value={this.state.inputCategory}
-          placeholder="Category"
-        />
-        {/* Item Input Box */}
-        <input
-          type="text"
-          onChange={(event) => this.setState({ inputItem: event.target.value })}
-          value={this.state.inputItem}
-          placeholder="Item"
-        />
-        <br />
-        <ButtonGroup toggle className="mb-2">
-          <ToggleButton
-            type="checkbox"
-            variant="secondary"
-            checked={this.state.isPriority}
-            onChange={(event) =>
-              this.setState({ isPriority: !this.state.isPriority })
-            }
-          >
-            Priority Levels{" "}
-          </ToggleButton>
-        </ButtonGroup>
-        {/* Only display select box when Priority Levels is checked */}
-        {this.state.isPriority && (
-          <select
-            value={this.state.inputPriority}
-            onChange={(event) =>
-              this.setState({ inputPriority: event.target.value })
-            }
-          >
-            <option value=""></option>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
-        )}
-        <br />
-        <ButtonGroup toggle className="mb-2">
-          <ToggleButton
-            type="checkbox"
-            variant="secondary"
-            checked={this.state.isDeadline}
-            onChange={(event) =>
-              this.setState({ isDeadline: !this.state.isDeadline })
-            }
-          >
-            Due Date {/* Only display text box when Due Date is checked */}
-          </ToggleButton>
-        </ButtonGroup>
-        {this.state.isDeadline && (
-          <input
-            type="text"
-            onChange={(event) =>
-              this.setState({ inputDeadline: event.target.value })
-            }
-            value={this.state.inputDeadline}
-            placeholder="Due Date"
-          />
-        )}
-        <br />
-        <ButtonGroup toggle className="mb-2">
-          <ToggleButton
-            type="checkbox"
-            variant="secondary"
-            checked={this.state.isDescription}
-            onChange={(event) =>
-              this.setState({ isDescription: !this.state.isDescription })
-            }
-          >
-            Description{" "}
+        <Form>
+          {/* Form Group for Category Name */}
+          <Form.Group>
+            <Form.Label>Category Name</Form.Label>
+            <Form.Control
+              type="text"
+              onChange={(event) =>
+                this.setState({ inputCategory: event.target.value })
+              }
+              value={this.state.inputCategory}
+              placeholder="Category"
+            />
+          </Form.Group>
+
+          {/* Form Group for Item Name */}
+          <Form.Group>
+            <Form.Label>Item Name</Form.Label>
+            <Form.Control
+              type="text"
+              onChange={(event) =>
+                this.setState({ inputItem: event.target.value })
+              }
+              value={this.state.inputItem}
+              placeholder="Item"
+            />
+          </Form.Group>
+
+          {/* Form Group for Priority Levels */}
+          <Form.Group>
+            <Form.Check
+              type="checkbox"
+              label="Priority Levels"
+              checked={this.state.isPriority}
+              onChange={(event) =>
+                this.setState({ isPriority: !this.state.isPriority })
+              }
+            />
+
+            {/* Only display select box when Priority Levels is checked */}
+            {this.state.isPriority && (
+              <Form.Control
+                as="select"
+                value={this.state.inputPriority}
+                onChange={(event) =>
+                  this.setState({ inputPriority: event.target.value })
+                }
+              >
+                <option value=""></option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </Form.Control>
+            )}
+          </Form.Group>
+
+          {/* Form Group for Due Date */}
+          <Form.Group>
+            <Form.Check
+              type="checkbox"
+              label="Due Date"
+              checked={this.state.isDeadline}
+              onChange={(event) =>
+                this.setState({ isDeadline: !this.state.isDeadline })
+              }
+            />
+
+            {/* Only display text box when Due Date is checked */}
+            {this.state.isDeadline && (
+              <Form.Control
+                type="text"
+                onChange={(event) =>
+                  this.setState({ inputDeadline: event.target.value })
+                }
+                value={this.state.inputDeadline}
+                placeholder="Due Date"
+              />
+            )}
+          </Form.Group>
+
+          {/* Form Group for Description */}
+          <Form.Group>
+            <Form.Check
+              type="checkbox"
+              label="Description"
+              checked={this.state.isDescription}
+              onChange={(event) =>
+                this.setState({ isDescription: !this.state.isDescription })
+              }
+            />
+
             {/* Only display text box when Description is checked */}
-          </ToggleButton>
-        </ButtonGroup>
-        {this.state.isDescription && (
-          <input
-            type="text"
-            onChange={(event) =>
-              this.setState({ inputDescription: event.target.value })
-            }
-            value={this.state.inputDescription}
-            placeholder="Description"
-          />
-        )}
-        <br />
+            {this.state.isDescription && (
+              <Form.Control
+                as="textarea"
+                rows="4"
+                onChange={(event) =>
+                  this.setState({ inputDescription: event.target.value })
+                }
+                value={this.state.inputDescription}
+                placeholder="Description"
+              />
+            )}
+          </Form.Group>
+        </Form>
+
         {/* Submit Button */}
         <Button variant="primary" onClick={this.submit.bind(this)}>
           {this.state.mode}
         </Button>
+
         {/* List of Items */}
         <ul>
           {this.state.list.map(({ categoryID, category, items }) => (
