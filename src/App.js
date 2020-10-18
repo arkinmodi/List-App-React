@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Button, ButtonGroup, ToggleButton } from "react-bootstrap";
 
 class App extends React.Component {
   constructor(props) {
@@ -225,14 +225,18 @@ class App extends React.Component {
           placeholder="Item"
         />
         <br />
-        <input
-          type="checkbox"
-          checked={this.state.isPriority}
-          onChange={(event) =>
-            this.setState({ isPriority: !this.state.isPriority })
-          }
-        />
-        Priority Levels{" "}
+        <ButtonGroup toggle className="mb-2">
+          <ToggleButton
+            type="checkbox"
+            variant="secondary"
+            checked={this.state.isPriority}
+            onChange={(event) =>
+              this.setState({ isPriority: !this.state.isPriority })
+            }
+          >
+            Priority Levels{" "}
+          </ToggleButton>
+        </ButtonGroup>
         {/* Only display select box when Priority Levels is checked */}
         {this.state.isPriority && (
           <select
@@ -248,14 +252,18 @@ class App extends React.Component {
           </select>
         )}
         <br />
-        <input
-          type="checkbox"
-          checked={this.state.isDeadline}
-          onChange={(event) =>
-            this.setState({ isDeadline: !this.state.isDeadline })
-          }
-        />
-        Due Date {/* Only display text box when Due Date is checked */}
+        <ButtonGroup toggle className="mb-2">
+          <ToggleButton
+            type="checkbox"
+            variant="secondary"
+            checked={this.state.isDeadline}
+            onChange={(event) =>
+              this.setState({ isDeadline: !this.state.isDeadline })
+            }
+          >
+            Due Date {/* Only display text box when Due Date is checked */}
+          </ToggleButton>
+        </ButtonGroup>
         {this.state.isDeadline && (
           <input
             type="text"
@@ -267,14 +275,19 @@ class App extends React.Component {
           />
         )}
         <br />
-        <input
-          type="checkbox"
-          checked={this.state.isDescription}
-          onChange={(event) =>
-            this.setState({ isDescription: !this.state.isDescription })
-          }
-        />
-        Description {/* Only display text box when Description is checked */}
+        <ButtonGroup toggle className="mb-2">
+          <ToggleButton
+            type="checkbox"
+            variant="secondary"
+            checked={this.state.isDescription}
+            onChange={(event) =>
+              this.setState({ isDescription: !this.state.isDescription })
+            }
+          >
+            Description{" "}
+            {/* Only display text box when Description is checked */}
+          </ToggleButton>
+        </ButtonGroup>
         {this.state.isDescription && (
           <input
             type="text"
