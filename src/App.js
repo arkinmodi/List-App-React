@@ -1,5 +1,7 @@
 import React from "react";
 import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button } from "react-bootstrap";
 
 class App extends React.Component {
   constructor(props) {
@@ -285,7 +287,9 @@ class App extends React.Component {
         )}
         <br />
         {/* Submit Button */}
-        <button onClick={this.submit.bind(this)}>{this.state.mode}</button>
+        <Button variant="primary" onClick={this.submit.bind(this)}>
+          {this.state.mode}
+        </Button>
         {/* List of Items */}
         <ul>
           {this.state.list.map(({ categoryID, category, items }) => (
