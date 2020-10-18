@@ -207,7 +207,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ padding: "20px" }}>
         <Form>
           {/* Form Group for Category Name */}
           <Form.Group>
@@ -317,6 +317,9 @@ class App extends React.Component {
         <Button variant="primary" onClick={this.submit.bind(this)}>
           {this.state.mode}
         </Button>
+
+        <br />
+        <br />
 
         {/* List of Items */}
         <ul>
