@@ -3,13 +3,14 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Form } from "react-bootstrap";
 
+// Instructions provides text instructions on how to use the application
 class Instructions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isInstructions: false, // Are the instructions showing?
       instructionsLabel: "Show Instructions", // Button label for instructions
-    }
+    };
   }
 
   render() {
@@ -28,6 +29,8 @@ class Instructions extends React.Component {
         >
           {this.state.instructionsLabel}
         </Button>
+
+        {/* Button toggles text */}
         {this.state.isInstructions && (
           <p style={{ textAlign: "center" }}>
             <b>Instructions</b>
@@ -56,11 +59,12 @@ class Instructions extends React.Component {
           </p>
         )}
       </div>
-    )
+    );
   }
 }
 
-class App extends React.Component {
+// List input and output
+class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -264,9 +268,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div style={{ padding: "20px" }}>
-        <Instructions />
-        <br />
+      <div>
         <Form>
           {/* Form Group for Category Name */}
           <Form.Group>
@@ -431,6 +433,19 @@ class App extends React.Component {
             </li>
           ))}
         </ul>
+      </div>
+    );
+  }
+}
+
+// Main application
+class App extends React.Component {
+  render() {
+    return (
+      <div style={{ padding: "20px" }}>
+        <Instructions />
+        <br />
+        <List />
       </div>
     );
   }
