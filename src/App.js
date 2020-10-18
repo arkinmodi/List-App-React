@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, ListGroup } from "react-bootstrap";
 
 class App extends React.Component {
   constructor(props) {
@@ -208,6 +208,31 @@ class App extends React.Component {
   render() {
     return (
       <div style={{ padding: "20px" }}>
+        <p style={{ textAlign: "center" }}>
+          <b>Instructions</b>
+          <br />
+          Type in Category Name and Item Name.
+          <br />
+          Optional properties include: Priority Level, Due Date, and
+          Description.
+          <br />
+          Checking/Unchecking the optional property will show/hide the property
+          for all items.
+          <br />
+          Once all desired fields are filled in, click "Add".
+          <br />
+          <br />
+          Clicking "Edit" on a category or item will fill in their respective
+          text boxes. Change values here and click "Edit Category" or "Edit
+          Item" to save changes.
+          <br />
+          <br />
+          Clicking "Delete" on an item will delete the item and all its
+          properties.
+          <br />
+          Clicking "Delete" on a category will delete the category and all its
+          items.
+        </p>
         <Form>
           {/* Form Group for Category Name */}
           <Form.Group>
