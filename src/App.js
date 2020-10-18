@@ -1,7 +1,64 @@
 import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Form, ListGroup } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
+
+class Instructions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isInstructions: false, // Are the instructions showing?
+      instructionsLabel: "Show Instructions", // Button label for instructions
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <Button
+          variant="secondary"
+          onClick={(event) =>
+            this.setState({
+              isInstructions: !this.state.isInstructions,
+              instructionsLabel: this.state.isInstructions
+                ? "Show Instructions"
+                : "Hide Instructions",
+            })
+          }
+        >
+          {this.state.instructionsLabel}
+        </Button>
+        {this.state.isInstructions && (
+          <p style={{ textAlign: "center" }}>
+            <b>Instructions</b>
+            <br />
+            Type in Category Name and Item Name.
+            <br />
+            Optional properties include: Priority Level, Due Date, and
+            Description.
+            <br />
+            Checking/Unchecking the optional property will show/hide the
+            property for all items.
+            <br />
+            Once all desired fields are filled in, click "Add".
+            <br />
+            <br />
+            Clicking "Edit" on a category or item will fill in their respective
+            text boxes. Change values here and click "Edit Category" or "Edit
+            Item" to save changes.
+            <br />
+            <br />
+            Clicking "Delete" on an item will delete the item and all its
+            properties.
+            <br />
+            Clicking "Delete" on a category will delete the category and all its
+            items.
+          </p>
+        )}
+      </div>
+    )
+  }
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -21,8 +78,6 @@ class App extends React.Component {
       isPriority: false, // Is priority level checkbox checked?
       isDescription: false, // Is description checkbox checked?
       isDeadline: false, // Is due date checkbox checked?
-      isInstructions: false, // Are the instructions showing?
-      instructionsLabel: "Show Instructions" // Button label for instructions
     };
   }
 
@@ -210,46 +265,7 @@ class App extends React.Component {
   render() {
     return (
       <div style={{ padding: "20px" }}>
-        <Button
-          variant="secondary"
-          onClick={(event) =>
-            this.setState({ isInstructions: !this.state.isInstructions, 
-            
-              instructionsLabel: !this.state.isInstructions ? "Hide Instructions" : "Show Instructions"
-            
-            })
-          }
-        >
-          {this.state.instructionsLabel}
-        </Button>
-        {this.state.isInstructions && (
-          <p style={{ textAlign: "center" }}>
-            <b>Instructions</b>
-            <br />
-            Type in Category Name and Item Name.
-            <br />
-            Optional properties include: Priority Level, Due Date, and
-            Description.
-            <br />
-            Checking/Unchecking the optional property will show/hide the
-            property for all items.
-            <br />
-            Once all desired fields are filled in, click "Add".
-            <br />
-            <br />
-            Clicking "Edit" on a category or item will fill in their respective
-            text boxes. Change values here and click "Edit Category" or "Edit
-            Item" to save changes.
-            <br />
-            <br />
-            Clicking "Delete" on an item will delete the item and all its
-            properties.
-            <br />
-            Clicking "Delete" on a category will delete the category and all its
-            items.
-          </p>
-        )}
-        <br />
+        <Instructions />
         <br />
         <Form>
           {/* Form Group for Category Name */}
