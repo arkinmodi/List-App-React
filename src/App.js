@@ -300,7 +300,7 @@ class List extends React.Component {
           <Form.Group>
             <Form.Check
               type="checkbox"
-              label="Priority Levels"
+              label="Priority Level"
               checked={this.state.isPriority}
               onChange={(event) =>
                 this.setState({ isPriority: !this.state.isPriority })
