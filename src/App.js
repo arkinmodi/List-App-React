@@ -75,7 +75,7 @@ class List extends React.Component {
       inputCategory: "", // Input text in category text box
       inputDescription: "", // Input text in description text box
       inputDeadline: "", // Input text in due date text box
-      inputPriority: "", // Input from priority level select box
+      inputPriority: "None", // Input from priority level select box
       mode: "Add", // Add or Edit mode
       editCategoryIndex: -1, // Category index to edit
       editItemIndex: -1, // Item index to edit
@@ -107,7 +107,7 @@ class List extends React.Component {
           nextCategoryID: this.state.nextCategoryID + 1,
           inputItem: "",
           inputCategory: "",
-          inputPriority: "",
+          inputPriority: "None",
           inputDescription: "",
           inputDeadline: "",
           list: [
@@ -146,7 +146,7 @@ class List extends React.Component {
           nextCategoryID: this.state.nextCategoryID + 1,
           inputItem: "",
           inputCategory: "",
-          inputPriority: "",
+          inputPriority: "None",
           inputDescription: "",
           inputDeadline: "",
           list: newList,
@@ -187,7 +187,7 @@ class List extends React.Component {
       this.setState({
         inputCategory: "",
         inputItem: "",
-        inputPriority: "",
+        inputPriority: "None",
         inputDeadline: "",
         inputDescription: "",
         list: newList,
@@ -316,7 +316,7 @@ class List extends React.Component {
                   this.setState({ inputPriority: event.target.value })
                 }
               >
-                <option value=""></option>
+                <option value="None">None</option>
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
