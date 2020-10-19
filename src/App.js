@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Form } from "react-bootstrap";
+import { Button, ButtonGroup, Form } from "react-bootstrap";
 
 // Instructions provides text instructions on how to use the application
 class Instructions extends React.Component {
@@ -241,6 +241,8 @@ class List extends React.Component {
       this.setState({
         list: newList,
       });
+    } else {
+      alert("Please exit edit mode to delete category.");
     }
   }
 
@@ -263,6 +265,8 @@ class List extends React.Component {
       this.setState({
         list: newList,
       });
+    } else {
+      alert("Please exit edit mode to delete item.");
     }
   }
 
@@ -387,27 +391,43 @@ class List extends React.Component {
           {this.state.list.map(({ categoryID, category, items }) => (
             <li key={categoryID}>
               {category} --{" "}
-              <span onClick={this.editCategory.bind(this, categoryID)}>
-                Edit{" "}
-              </span>
-              <span onClick={this.deleteCategory.bind(this, categoryID)}>
-                Delete
-              </span>
+              <ButtonGroup>
+                <Button
+                  variant="primary"
+                  onClick={this.editCategory.bind(this, categoryID)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={this.deleteCategory.bind(this, categoryID)}
+                >
+                  Delete
+                </Button>
+              </ButtonGroup>
               <ul key={categoryID}>
                 {items.map(
                   ({ itemID, item, priority, description, deadline }) => (
                     <li key={itemID}>
                       {item} --{" "}
-                      <span
-                        onClick={this.editItem.bind(this, categoryID, itemID)}
-                      >
-                        Edit{" "}
-                      </span>
-                      <span
-                        onClick={this.deleteItem.bind(this, categoryID, itemID)}
-                      >
-                        Delete
-                      </span>
+                      <ButtonGroup>
+                        <Button
+                          variant="primary"
+                          onClick={this.editItem.bind(this, categoryID, itemID)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={this.deleteItem.bind(
+                            this,
+                            categoryID,
+                            itemID
+                          )}
+                        >
+                          Delete
+                        </Button>
+                      </ButtonGroup>
                       {/* Shows respective property when respective checkbox is checked */}
                       {(this.state.isPriority ||
                         this.state.isDeadline ||
