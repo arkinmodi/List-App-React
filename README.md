@@ -14,6 +14,9 @@ The goal was to create a simple list app. This app allows you to create a list o
 
 1. `npm install`
 2. `npm start`
+3. Open `http://localhost:3000/` in a browser
+
+_Note: Run with Docker by running `docker compose up`_
 
 ## Technologies Used
 
